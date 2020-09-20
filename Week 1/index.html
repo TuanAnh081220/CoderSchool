@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>CURRENCY CONVERTER</h1>
+    <button onclick="dosomething()">Click me</button>
+    <script>
+        function dosomething() {
+            var xhr = new XMLHttpRequest()
+            xhr.open(
+                "GET",
+                'https://free.currconv.com/api/v7/convert?q=USD_VND&compact=ultra&apiKey=e81378e11e46beb5a4a6'
+            );
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    console.log(JSON.parse(xhr.responseText))
+                }
+                console.log("hehe")
+            }
+            xhr.send()
+        }
+    </script>
+</body>
+
+</html>

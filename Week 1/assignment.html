@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guessing number</title>
+</head>
+
+<body>
+    <div id="myapp">
+        <div id="message">
+            <h1>Notification here</h1>
+        </div>
+        <h2 id="lastGuess">Your last guess: </h2>
+        <h2 id="numberOfGuess">Remaining guesses: 10</h2>
+        <input type="number" id="number" />
+        <button id="guessButton">GUESS</button><br></br>
+        <div id="resetButton"></div>
+    </div>
+    <script>
+        const guessLimit = 10;
+        const goalNumber = Math.floor(Math.random() * 100);
+        let numberOfGuess = guessLimit;
+        let guessedValue = [];
+        console.log("goalNumber:", goalNumber);
+        let button = document.getElementById("guessButton");
+        button.addEventListener('click', () => {
+            if (document.getElementById("number").value == "") {
+                alert("You have to type your guest first!")
+            }
+            else {
+                let userGuess = Number(document.getElementById("number").value);
+                numberOfGuess = numberOfGuess - 1;
+                let noti;
+                let notiColor;
+                if (numberOfGuess > 0) {
+                    guessedValue.push(userGuess)
+                    if (userGuess < goalNumber) {
+                        noti = "Sorry your guess is too low"
+                        notiColor = "red"
+                    }
+                    else if (userGuess > goalNumber) {
+                        noti = "Sorry your guess is too high"
+                        notiColor = "red"
+                    }
+                    else if (userGuess == goalNumber) {
+                        noti = "Congratulations!! You guessed correctly."
+                        notiColor = "green"
+                        disableGuessButton();
+                        openResetButton();
+                    }
+                } else {
+                    noti = "You lose!";
+                    openResetButton();
+                }
+                document.getElementById("message").innerHTML = `<h1 style="background-color:${notiColor}">${noti}</h1>`
+                document.getElementById("lastGuess").innerHTML = `Your last guess: ${guessedValue}`
+                document.getElementById("numberOfGuess").innerHTML = `Remaining guesses: ${numberOfGuess}`
+            }
+        });
+        const reset = () => {
+            let loadingSeconds = 5;
+            document.getElementById("myapp").innerHTML = `Loading ${loadingSeconds} ... `
+            setInterval(() => {
+                loadingSeconds = loadingSeconds - 1;
+                document.getElementById("myapp").innerHTML = `Loading ${loadingSeconds} ... `
+            }, 1000)
+            setTimeout(() => {
+                location.reload();
+            }, 5000)
+        }
+        const disableGuessButton = () => {
+            document.getElementById("guessButton").disabled = true;
+        }
+        const openResetButton = () => {
+            document.getElementById("resetButton").innerHTML = `<button onclick="reset()">RESET</button>`
+        }
+    </script>
+</body>
+
+</html>
